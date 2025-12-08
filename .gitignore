@@ -13,3 +13,6 @@ media
 
 # IDE (VS Code)
 .vscode/
+
+# Arquivos de implementação
+lista_tarefas_implementacao.md
