@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-gx7=9_0kl^(eqqvj%_ag9%@k6_hf$ywlvu4=3%v92(uqrxlx6('
+SECRET_KEY = 'django-insecure-^#+s&mvv2*ko*#y^kh@b(su%gu1kz7rjl@s@nyt$t1@3^2y8jh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
