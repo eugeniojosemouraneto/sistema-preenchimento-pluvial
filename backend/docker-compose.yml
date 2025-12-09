@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # --- Banco de Dados PostgreSQL ---
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # --- Broker de Mensagens Redis ---
+  redis:
+    image: redis:7
+    container_name: redis_broker
+    ports:
+      - "6379:6379"
+
+  # --- Servidor Web (Django) ---
+  web:
+    build: .
+    container_name: django_web
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      # CORREÇÃO: Mapeia a pasta atual (.) para /app no container
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+
+  # --- Worker Assíncrono (Celery) ---
+  worker:
+    build: .
+    container_name: celery_worker
+    # Inicia o Celery apontando para a app 'core'
+    command: celery -A core worker --loglevel=info
+    volumes:
+      # CORREÇÃO: Mapeia a pasta atual (.) para /app no container
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres_data:
